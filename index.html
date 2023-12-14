@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排班和调班管理系统</title>
+    <style>
+        /* ... （之前的样式保留） */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ... （之前的HTML结构保留） -->
+
+    <section id="scheduleSection" style="display:none;">
+        <!-- ... （之前的排班管理部分保留） -->
+        <button onclick="openShiftModal()">调班</button>
+    </section>
+
+    <div id="shiftModal" class="modal">
+        <div class="modal-content">
+            <h2>调班</h2>
+            <label for="fromShift">原班次：</label>
+            <select id="fromShift">
+                <!-- 动态生成班次选项 -->
+            </select>
+
+            <label for="toShift">目标班次：</label>
+            <select id="toShift">
+                <!-- 动态生成班次选项 -->
+            </select>
+
+            <button onclick="shiftEmployee()">确认调班</button>
+            <button onclick="closeShiftModal()">取消</button>
+        </div>
+    </div>
+
+    <script>
+        // 示例排班数据
+        var scheduleData = [
+            { date: '2023-01-01', shift: '早班', employee: '员工A' },
+            { date: '2023-01-02', shift: '中班', employee: '员工B' },
+            { date: '2023-01-03', shift: '晚班', employee: '员工C' },
+            // 添加更多数据...
+        ];
+
+        // 在页面加载时生成示例排班数据
+        function generateScheduleTable() {
+            var scheduleTable = document.querySelector('#scheduleSection table tbody');
+
+            scheduleData.forEach(function (item) {
+                var row = scheduleTable.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+
+                cell1.textContent = item.date;
+                cell2.textContent = item.shift;
+                cell3.textContent = item.employee;
+            });
+        }
+
+        // 在模态框中动态生成班次选项
+        function generateShiftOptions() {
+            var shifts = ['早班', '中班', '晚班'];
+            var fromShiftSelect = document.getElementById('fromShift');
+            var toShiftSelect = document.getElementById('toShift');
+
+            shifts.forEach(function (shift) {
+                var option = document.createElement('option');
+                option.value = shift;
+                option.text = shift;
+                fromShiftSelect.add(option);
+                toShiftSelect.add(option.cloneNode(true));
+            });
+        }
+
+        // 打开调班模态框
+        function openShiftModal() {
+            generateShiftOptions();
+            document.getElementById('shiftModal').style.display = 'flex';
+        }
+
+        // 关闭调班模态框
+        function closeShiftModal() {
+            document.getElementById('shiftModal').style.display = 'none';
+        }
+
+        // 处理调班逻辑
+        function shiftEmployee() {
+            // 在这里你可以获取用户选择的班次信息，然后进行相应的操作
+
+            // 刷新排班表格，演示调班后的效果
+            var scheduleTable = document.querySelector('#scheduleSection table tbody');
+            scheduleTable.innerHTML = ''; // 清空表格内容
+            generateScheduleTable();
+
+            // 关闭模态框
+            closeShiftModal();
+        }
+
+        // 页面加载时生成示例排班数据
+        window.onload = function () {
+            generateScheduleTable();
+        };
+    </script>
+</body>
+</html>
